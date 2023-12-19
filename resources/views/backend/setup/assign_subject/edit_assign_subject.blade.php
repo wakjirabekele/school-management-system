@@ -13,29 +13,29 @@
                 <!-- Basic Forms -->
                 <div class="box">
                     <div class="box-header with-border">
-                        <h4 class="box-title">Edit Fee Amount</h4>
+                        <h4 class="box-title">Edit Assigned Subject</h4>
 
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
                         <div class="row">
                             <div class="col">
-                                <form action="{{ route('update.fee.amount', $editData[0]->fee_category_id) }}" method="POST"
+                                <form action="{{ route('update.assign.subject', $editData[0]->class_id) }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="add_item">
                                                 <div class="form-group">
-                                                    <h5>Fee Category <span class="text-danger">*</span></h5>
+                                                    <h5>Class Name<span class="text-danger">*</span></h5>
                                                     <div class="controls">
-                                                        <select name="fee_category_id" required="" class="form-control">
-                                                            <option value="" selected disabled>Select Fee Category
+                                                        <select name="class_id" required="" class="form-control">
+                                                            <option value="" selected disabled> Select Class
                                                             </option>
-                                                            @foreach ($fee_categories as $category)
-                                                                <option value="{{ $category->id }}"
-                                                                    {{ ($editData['0']->fee_category_id == $category->id )? 'selected' : '' }}>
-                                                                    {{ $category->name }}
+                                                            @foreach ($classes as $class)
+                                                                <option value="{{ $class->id }}"
+                                                                    {{ ($editData['0']->class_id == $class->id )? "selected" :"" }}>
+                                                                    {{ $class->name }}
                                                                 </option>
                                                             @endforeach
 
@@ -47,20 +47,20 @@
                                                     <div class="delete_whole_extra_item_add"
                                                         id="delete_whole_extra_item_add">
                                                         <div class="row">
-                                                            <div class="col-md-5">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
-                                                                    <h5>Student Class<span class="text-danger">*</span></h5>
+                                                                    <h5>Student Subject<span class="text-danger">*</span>
+                                                                    </h5>
                                                                     <div class="controls">
-                                                                        <select name="class_id[]" required=""
+                                                                        <select name="subject_id[]" required=""
                                                                             class="form-control">
                                                                             <option value="" selected disabled>Select
-                                                                                Student
-                                                                                Class
+                                                                                Subject
                                                                             </option>
-                                                                            @foreach ($classes as $class)
-                                                                                <option value="{{ $class->id }}"
-                                                                                    {{ $edit->class_id == $class->id ? 'selected' : '' }}>
-                                                                                    {{ $class->name }}
+                                                                            @foreach ($subjects as $subject)
+                                                                                <option value="{{ $subject->id }}"
+                                                                                    {{ ($edit->subject_id == $subject->id) ? "Selected" : "" }}>
+                                                                                    {{ $subject->name }}
                                                                                 </option>
                                                                             @endforeach
 
@@ -68,29 +68,51 @@
                                                                     </div>
                                                                 </div> {{-- </div> end form group --}}
                                                             </div>
-                                                            <div class="col-md-5">
+                                                            <div class="col-md-2">
                                                                 <div class="form-group">
-                                                                    <h5>Amount <span class="text-danger">*</span></h5>
+                                                                    <h5>Full Mark <span class="text-danger">*</span></h5>
                                                                     <div class="controls">
-                                                                        <input id="" type="text" name="amount[]"
-                                                                            value="{{ $edit->amount }}"
-                                                                            class="form-control">
+                 <input id="" type="text" name="full_mark[]"  value="{{ $edit->full_mark }}" class="form-control">
 
                                                                     </div>
 
                                                                 </div>
-                                                            </div>
+                                                            </div> <!-- col-md-5 end-->
+                                                            <div class="col-md-2">
+                                                                <div class="form-group">
+                                                                    <h5>Pass Mark <span class="text-danger">*</span></h5>
+                                                                    <div class="controls">
+                                        <input id="" type="text" name="pass_mark[]" value="{{ $edit->pass_mark }}" class="form-control">
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div> <!-- col-md-5 end-->
+                                                            <div class="col-md-2">
+                                                                <div class="form-group">
+                                                                    <h5>Subjective Mark <span class="text-danger">*</span>
+                                                                    </h5>
+                                                                    <div class="controls">
+                                                                        <input id="" type="text"
+                                                                            name="subjective_mark[]"
+                                                                            value="{{ $edit->subjective_mark }}"
+                                                                    class="form-control">
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div> <!-- col-md-5 end-->
                                                             <div class="col-md-2" style="padding-top: 25px;">
                                                                 <span class="btn btn-success addeventmore"><i
                                                                         class="fa fa-plus-circle"></i></span>
                                                                 <span class="btn btn-danger removeeventmore"><i
                                                                         class="fa fa-minus-circle"></i></span>
                                                             </div>
-                                                        </div>
-                                                    </div>{{-- //end remove delete --}}
+                                                        </div> <!-- end of row -->
+                                                    </div> <!-- end for delete whole -->
                                                 @endforeach
+                                            </div>
 
-                                            </div> 
                                             <div class="text-xs-right">
                                                 <input type="submit" class="btn btn-rounded btn-info mb-5" name="submit"
                                                     value="Update">
@@ -118,16 +140,16 @@
         <div class="whole_extra_item_add" id="whole_extra_item_add">
             <div class="delete_whole_extra_item_add" id="delete_whole_extra_item_add">
                 <div class="form-row">
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <h5>Student Class<span class="text-danger">*</span></h5>
+                            <h5>Student Subject<span class="text-danger">*</span></h5>
                             <div class="controls">
-                                <select name="class_id[]" required="" class="form-control">
-                                    <option value="" selected disabled>Select Student
-                                        Class
+                                <select name="subject_id[]" required="" class="form-control">
+                                    <option value="" selected disabled>Select Subject
                                     </option>
-                                    @foreach ($classes as $class)
-                                        <option value="{{ $class->id }}">{{ $class->name }}
+                                    @foreach ($subjects as $subject)
+                                        <option value="{{ $subject->id }}">
+                                            {{ $subject->name }}
                                         </option>
                                     @endforeach
 
@@ -135,16 +157,36 @@
                             </div>
                         </div> {{-- </div> end form group --}}
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-2">
                         <div class="form-group">
-                            <h5>Amount <span class="text-danger">*</span></h5>
+                            <h5>Full Mark <span class="text-danger">*</span></h5>
                             <div class="controls">
-                                <input id="" type="text" name="amount[]" class="form-control">
+                                <input id="" type="text" name="full_mark[]" class="form-control">
 
                             </div>
 
                         </div>
-                    </div>
+                    </div> <!-- col-md-5 end-->
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <h5>Pass Mark <span class="text-danger">*</span></h5>
+                            <div class="controls">
+                                <input id="" type="text" name="pass_mark[]" class="form-control">
+
+                            </div>
+
+                        </div>
+                    </div> <!-- col-md-5 end-->
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <h5>Subjective Mark <span class="text-danger">*</span></h5>
+                            <div class="controls">
+                                <input id="" type="text" name="subjective_mark[]" class="form-control">
+
+                            </div>
+
+                        </div>
+                    </div> <!-- col-md-5 end-->
                     <div class="col-md-2" style="padding-top: 25px;">
                         <span class="btn btn-success addeventmore"><i class="fa fa-plus-circle"></i></span>
                         <span class="btn btn-danger removeeventmore"><i class="fa fa-minus-circle"></i></span>
@@ -164,7 +206,7 @@
             });
             $(document).on("click", ".removeeventmore", function(event) {
                 $(this).closest(".delete_whole_extra_item_add").remove();
-                counter--;
+                counter -= 1;
             });
         });
     </script>

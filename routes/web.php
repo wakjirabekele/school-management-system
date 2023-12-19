@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\Backend\Setup\AssignSubjectController;
+use App\Http\Controllers\Backend\Setup\SchoolSubjectController;
+
+use App\Http\Controllers\Backend\Student\RegistrationFeeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\Setup\ExamTypeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\ProfileController;
@@ -10,6 +15,10 @@ use App\Http\Controllers\Backend\Setup\StudentGroupController;
 use App\Http\Controllers\Backend\Setup\StudentShiftController;
 use App\Http\Controllers\Backend\Setup\FeeCategoryController;
 use App\Http\Controllers\Backend\Setup\FeeAmountController;
+use App\Http\Controllers\Backend\Setup\DesignationController;
+
+use App\Http\Controllers\Backend\Student\StudentRegController;
+use App\Http\Controllers\Backend\Student\StudentRoleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -114,4 +123,71 @@ Route::get('/fee/amount/add',[FeeAmountController::class,'AddFeeAmount'])->name(
 Route::post('/fee/amount/store',[FeeAmountController::class,'StoreFeeAmount'])->name('store.fee.amount');
 
 Route::get('fee/amount/edit/{fee_category_id}',[FeeAmountController::class,'FeeAmountEdit'])->name('fee.amount.edit');
+Route::post('fee/amount/update/{fee_category_id}',[FeeAmountController::class,'UpdateFeeAmount'])->name('update.fee.amount');
+
+Route::get('fee/amount/details/{fee_category_id}',[FeeAmountController::class,'FeeAmountDetails'])->name('fee.amount.details');
+
+//Exam Type route
+Route::get('exam/type/view',[ExamTypeController::class,'ExamTypeView'])->name('exam.type.view');
+
+Route::get('exam/type/add',[ExamTypeController::class,'ExamTypeAdd'])->name('exam.type.add');
+Route::post('exam/type/store',[ExamTypeController::class,'ExamTypeStore'])->name('store.exam.type');
+Route::get('exam/type/edit/{id}',[ExamTypeController::class,'ExamTypeEdit'])->name('exam.type.edit');
+Route::post('exam/type/update/{id}',[ExamTypeController::class,'ExamTypeUpdate'])->name('update.exam.type');
+Route::get('exam/type/delete/{id}',[ExamTypeController::class,'ExamTypeDelete'])->name('exam.type.delete');
+
+//school subject route
+Route::get('school/subject/view',[SchoolSubjectController::class,'SchoolSubjectView'])->name('school.subject.view');
+Route::get('school/subject/add',[SchoolSubjectController::class,'SchoolSubjectAdd'])->name('school.subject.add');
+Route::post('school/subject/store',[SchoolSubjectController::class,'SchoolSubjectStore'])->name('store.school.subject');
+Route::get('school/subject/edit/{id}',[SchoolSubjectController::class,'SchoolSubjectEdit'])->name('school.subject.edit');
+
+Route::post('school/subject/update/{id}',[SchoolSubjectController::class,'SchoolSubjectUpdate'])->name('update.school.subject');
+
+Route::get('school/subject/delete/{id}',[SchoolSubjectController::class,'SchoolSubjectDelete'])->name('school.subject.delete');
+
+//Assign subject route
+Route::get('assign/subject/view',[AssignSubjectController::class,'ViewAssignSubject'])->name('assign.subject.view');
+Route::get('assign/subject/add',[AssignSubjectController::class,'AddAssignSubject'])->name('assign.subject.add');
+Route::post('assign/subject/store',[AssignSubjectController::class,'StoreAssignSubject'])->name('store.assign.subject');
+Route::get('assign/subject/edit/{class_id}',[AssignSubjectController::class,'EditAssignSubject'])->name('assign.subject.edit');
+
+Route::post('assign/subject/update/{class_id}',[AssignSubjectController::class,'UpdateAssignSubject'])->name('update.assign.subject');
+
+Route::get('assign/subject/details/{class_id}',[AssignSubjectController::class,'AssignSubjectDetail'])->name('assign.subject.details');
+
+//Designation route
+Route::get('designation/view',[DesignationController::class,'ViewDesignation'])->name('designation.view');
+Route::get('designation/add',[DesignationController::class,'AddDesignation'])->name('designation.add');
+Route::post('designation/store',[DesignationController::class,'StoreDesignation'])->name('store.designation');
+Route::get('designation/edit/{id}',[DesignationController::class,'EditDesignation'])->name('designation.edit');
+
+Route::post('designation/update/{id}',[DesignationController::class,'UpdateDesignation'])->name('update.designation');
+
+Route::get('designation/delete/{id}',[DesignationController::class,'DeleteDesignation'])->name('designation.delete');
+
+});
+
+//Student registration route
+Route::prefix('students')->group(function(){
+    Route::get('/reg/view',[StudentRegController::class,'StudentRegView'])->name('student.registration.view');
+    Route::get('/reg/add',[StudentRegController::class,'StudentRegAdd'])->name('student.registration.add');
+    Route::post('/reg/store',[StudentRegController::class,'StudentRegStore'])->name('store.student.registration');
+    Route::get('/year/class/wise',[StudentRegController::class,'StudentClassYearWise'])->name('student.year.class.wise');
+    Route::get('/reg/edit/{student_id}',[StudentRegController::class,'StudentRegEdit'])->name('student.registration.edit');
+    Route::post('/reg/update/{student_id}',[StudentRegController::class,'StudentRegUpdate'])->name('update.student.registration');
+    Route::get('/reg/promote/{student_id}',[StudentRegController::class,'StudentRegPromotion'])->name('student.registration.promotion');
+    Route::post('/reg/promote/{student_id}',[StudentRegController::class,'StudentUpdatePromote'])->name('promotion.student.registration');
+    Route::get('/reg/details/{student_id}',[StudentRegController::class,'StudentRegDetails'])->name('student.registration.details');
+
+    //student role generate
+    Route::get('/role/generate/view',[StudentRoleController::class,'StudentRollView'])->name('roll.generate.view');
+    Route::get('/reg/getstudents',[StudentRoleController::class,'GetStudents'])->name('student.registration.getstudents');
+    Route::post('/roll/generate/store',[StudentRoleController::class,'StudentRollStore'])->name('roll.generate.store');
+    
+    //Registration fee route
+    Route::get('/reg/fee/view',[RegistrationFeeController::class,'RegFeeView'])->name('registration.fee.view');
+    Route::get('/reg/fee/classwisedata',[RegistrationFeeController::class,'RegFeeClassData'])->name('student.registration.fee.classwise.get');
+    Route::get('/reg/fee/payslip',[RegistrationFeeController::class,'RegFeePayslip'])->name('student.registration.fee.payslip');
+    
 });
