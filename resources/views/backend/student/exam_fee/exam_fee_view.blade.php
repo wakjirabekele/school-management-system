@@ -14,7 +14,7 @@
                     <div class="col-12">
                         <div class="box bb-3 border-warning">
                             <div class="box-header">
-                                <h4 class="box-title">Student <strong>Monthly Fee</strong></h4>
+                                <h4 class="box-title">Student <strong>Exam Fee</strong></h4>
                             </div>
 
                             <div class="box-body">
@@ -56,25 +56,14 @@
                                     <div class="col-md-3">
 
                                         <div class="form-group">
-                                            <h5>Month <span class="text-danger"> </span></h5>
+                                            <h5>Exam Type <span class="text-danger"> </span></h5>
                                             <div class="controls">
-                                                <select name="month" id="month" required="" class="form-control">
-                                                    <option value="" selected="" disabled="">Select Month
+                                                <select name="exam_type_id" id="exam_type_id" required="" class="form-control">
+                                                    <option value="" selected="" disabled="">Select Exam Type
                                                     </option>
-                                                    
-                                                        <option value="January"> January</option>
-                                                        <option value="Febrary"> Febrary</option>
-                                                        <option value="March"> March</option>
-                                                        <option value="April"> April</option>
-                                                        <option value="May"> May</option>
-                                                        <option value="June"> June</option>
-                                                        <option value="July"> July</option>
-                                                        <option value="August"> August</option>
-                                                        <option value="September"> September</option>
-                                                        <option value="October"> October</option>
-                                                        <option value="November"> November</option>
-                                                        <option value="December"> December</option>
-                                                   
+                                                    @foreach ($exam_type as $exam)
+                                                        <option value="{{ $exam->id }}">{{ $exam->name }}</option>
+                                                    @endforeach
 
                                                 </select>
                                             </div>
@@ -130,14 +119,14 @@
         $(document).on('click', '#search', function() {
             var year_id = $('#year_id').val();
             var class_id = $('#class_id').val();
-            var month = $('#month').val();
+            var exam_type_id = $('#exam_type_id').val();
             $.ajax({
-                url: "{{ route('student.monthly.fee.classwise.get') }}",
+                url: "{{ route('student.exam.fee.classwise.get') }}",
                 type: "get",
                 data: {
                     'year_id': year_id,
                     'class_id': class_id,
-                    'month':month
+                    'exam_type_id':exam_type_id
                 },
                 beforeSend: function() {},
                 success: function(data) {
