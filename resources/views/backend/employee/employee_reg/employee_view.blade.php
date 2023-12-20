@@ -51,8 +51,8 @@
                                                         <td width="20%">
                                                             <a href="{{ route('employee.registration.edit', $employee->id) }}"
                                                                 class="btn-md btn-warning">Edit</a>
-                                                            <a href="{{ route('designation.delete', $employee->id) }}"
-                                                                class="btn-md btn-danger" id="delete">Delete</a>
+                                                            <a href="{{ route('employee.registration.details', $employee->id) }}"
+                                                               target="_blank" class="btn-md btn-primary" >Details</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach

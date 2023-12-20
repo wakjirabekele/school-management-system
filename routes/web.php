@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\Employee\EmployeeRegController;
+use App\Http\Controllers\Backend\Employee\EmployeeSalaryController;
 use App\Http\Controllers\Backend\Setup\AssignSubjectController;
 use App\Http\Controllers\Backend\Setup\SchoolSubjectController;
 
@@ -215,9 +216,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/reg/store', [EmployeeRegController::class, 'EmployeeRegStore'])->name('store.employee.registration');
         Route::get('/reg/edit/{id}', [EmployeeRegController::class, 'EmployeeRegEdit'])->name('employee.registration.edit');
         Route::post('/reg/update/{id}', [EmployeeRegController::class, 'EmployeeRegUpdate'])->name('update.employee.registration');
+        Route::get('/reg/details/{id}', [EmployeeRegController::class, 'EmployeeRegDetails'])->name('employee.registration.details');
         
-       
-        
+        //Employee salary route
+      
+        Route::get('/salary/view', [EmployeeSalaryController::class, 'EmployeeSalaryView'])->name('employee.salary.view');
+        Route::get('/salary/increment/{id}', [EmployeeSalaryController::class, 'EmployeeSalaryIncrement'])->name('employee.salary.increment');
+        Route::post('/salary/employee/increment/{id}', [EmployeeSalaryController::class, 'UpdateIncrementStore'])->name('update.increment.store');
+        Route::get('/salary/employee/details/{id}', [EmployeeSalaryController::class, 'EmployeeSalaryDetails'])->name('employee.salary.details');
+
+        Route::post('/reg/update/{id}', [EmployeeRegController::class, 'EmployeeRegUpdate'])->name('update.employee.registration');
+        Route::get('/reg/details/{id}', [EmployeeRegController::class, 'EmployeeRegDetails'])->name('employee.registration.details');
     });
 
 }); //end middleware auth
