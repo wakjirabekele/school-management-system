@@ -1,7 +1,15 @@
 <?php
 
+use App\Http\Controllers\Backend\Account\AccountSalaryController;
+use App\Http\Controllers\Backend\Account\StudentFeeController;
+use App\Http\Controllers\Backend\DefaultController;
+use App\Http\Controllers\Backend\Employee\EmployeeAttendanceController;
+use App\Http\Controllers\Backend\Employee\EmployeeLeaveController;
 use App\Http\Controllers\Backend\Employee\EmployeeRegController;
 use App\Http\Controllers\Backend\Employee\EmployeeSalaryController;
+use App\Http\Controllers\Backend\Employee\MonthlySalaryController;
+use App\Http\Controllers\Backend\Marks\GradeController;
+use App\Http\Controllers\Backend\Marks\MarksController;
 use App\Http\Controllers\Backend\Setup\AssignSubjectController;
 use App\Http\Controllers\Backend\Setup\SchoolSubjectController;
 
@@ -225,8 +233,65 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/salary/employee/increment/{id}', [EmployeeSalaryController::class, 'UpdateIncrementStore'])->name('update.increment.store');
         Route::get('/salary/employee/details/{id}', [EmployeeSalaryController::class, 'EmployeeSalaryDetails'])->name('employee.salary.details');
 
-        Route::post('/reg/update/{id}', [EmployeeRegController::class, 'EmployeeRegUpdate'])->name('update.employee.registration');
-        Route::get('/reg/details/{id}', [EmployeeRegController::class, 'EmployeeRegDetails'])->name('employee.registration.details');
+        //Employee leave route
+        Route::get('/leave/view', [EmployeeLeaveController::class, 'EmployeeLeaveView'])->name('employee.leave.view');
+        Route::get('/leave/add', [EmployeeLeaveController::class, 'EmployeeLeaveAdd'])->name('employee.leave.add');
+        Route::post('/leave/store', [EmployeeLeaveController::class, 'EmployeeLeaveStore'])->name('store.employee.leave');
+        Route::get('/leave/edit/{id}', [EmployeeLeaveController::class, 'EmployeeLeaveEdit'])->name('employee.leave.edit');
+        Route::post('/leave/update/{id}', [EmployeeLeaveController::class, 'EmployeeLeaveUpdate'])->name('update.employee.leave');
+        Route::get('/leave/delete/{id}', [EmployeeLeaveController::class, 'EmployeeLeaveDelete'])->name('employee.leave.delete');
+        
+        //Employee attendance route
+        Route::get('/attendance/view', [EmployeeAttendanceController::class, 'EmployeeAttendanceView'])->name('employee.attendance.view');
+        Route::get('/attendance/add', [EmployeeAttendanceController::class, 'EmployeeAttendanceAdd'])->name('employee.attendance.add');
+        Route::post('/attendance/store', [EmployeeAttendanceController::class, 'EmployeeAttendanceStore'])->name('store.employee.attendance');
+        Route::get('/attendance/edit/{date}', [EmployeeAttendanceController::class, 'EmployeeAttendanceEdit'])->name('employee.attendance.edit');
+        Route::get('/attendance/details/{date}', [EmployeeAttendanceController::class, 'EmployeeAttendanceDetails'])->name('employee.attendance.details');
+        //Employee monthly salary  route
+        Route::get('/monthly/salary', [MonthlySalaryController::class, 'MonthlySalaryView'])->name('employee.monthly.salary');
+        Route::get('/monthly/salary/get', [MonthlySalaryController::class, 'MonthlySalaryGet'])->name('employee.monthly.salary.get');
+        Route::get('/monthly/salary/slip/{employee_id}', [MonthlySalaryController::class, 'MonthlySalaryPayslip'])->name('employee.monthly.salary.payslip');
+        
+        
     });
+    //mark entry route
+    Route::prefix('marks')->group(function () {
+        Route::get('/mark/entry/Add', [MarksController::class, 'MarksAdd'])->name('marks.entry.add');
+        Route::get('/mark/entry/edit', [MarksController::class, 'MarksEdit'])->name('marks.entry.edit');
+        Route::post('/mark/entry/store', [MarksController::class, 'MarksStore'])->name('marks.entry.store');
+        Route::get('/mark/getstudents/edit', [MarksController::class, 'MarksEditGetStudents'])->name('student.edit.getstudents');
+        Route::post('/mark/entry/update', [MarksController::class, 'MarksUpdate'])->name('marks.entry.update');
+        
+        //Grade management route
+        Route::get('/mark/grade/view', [GradeController::class, 'MarksGradeView'])->name('marks.entry.grade');
+        Route::get('/mark/grade/add', [GradeController::class, 'MarksGradeAdd'])->name('marks.grade.add');
+        Route::post('/mark/grade/store', [GradeController::class, 'MarksGradeStore'])->name('store.marks.grade');
+        Route::get('/mark/grade/edit/{id}', [GradeController::class, 'MarksGradeEdit'])->name('marks.grade.edit');
+        Route::post('/mark/grade/update/{id}', [GradeController::class, 'MarksGradeUpdate'])->name('update.marks.grade');
+        
+    });
+    Route::get('/mark/getsubject', [DefaultController::class, 'GetSubject'])->name('marks.getsubject');
+    Route::get('/mark/getstudentmarks', [DefaultController::class, 'GetStudents'])->name('student.marks.getstudents');
+
+    //Account managements route
+    Route::prefix('accounts')->group(function () {
+        Route::get('/students/fee/view', [StudentFeeController::class, 'StudentFeeView'])->name('student.fee.view');
+        Route::get('/students/fee/add', [StudentFeeController::class, 'StudentFeeAdd'])->name('student.fee.add');
+
+        Route::get('/students/fee/getstudent', [StudentFeeController::class, 'StudentFeeGetStudent'])->name('account.fee.getstudent');
+        
+        Route::post('/students/fee/store', [StudentFeeController::class, 'StudentFeeStore'])->name('account.fee.store');
+
+        //employee salary route
+        Route::get('/account/salary/view', [AccountSalaryController::class, 'AccountSalaryView'])->name('account.salary.view');
+        Route::get('/account/salary/add', [AccountSalaryController::class, 'AccountSalaryAdd'])->name('account.salary.add');
+        Route::get('/account/salary/getemployee', [AccountSalaryController::class, 'AccountSalaryGetEmployee'])->name('account.salary.getemployee');
+
+        Route::post('/account/salary/store', [AccountSalaryController::class, 'AccountSalaryStore'])->name('account.salary.store');
+        
+    });
+
+    
+    
 
 }); //end middleware auth
